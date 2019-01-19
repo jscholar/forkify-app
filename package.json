@@ -1,0 +1,26 @@
+{
+  "name": "forkify-app",
+  "version": "1.0.0",
+  "description": "forkify project",
+  "main": "index.js",
+  "scripts": {
+    "dev": "webpack --mode=development",
+    "build": "webpack --mode=production"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jscholar/forkify-app.git"
+  },
+  "author": "\"Jin Cai\"",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jscholar/forkify-app/issues"
+  },
+  "homepage": "https://github.com/jscholar/forkify-app#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "webpack": "^4.28.4",
+    "webpack-cli": "^3.2.1",
+    "webpack-dev-server": "^3.1.14"
+  }
+}
