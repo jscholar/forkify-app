@@ -18,7 +18,10 @@ Creates a production build 'dist' in root directory.
 
 
 
-## **Change Log**
+## **Progress Log**
 ---
+### 1/20
+* Setup up Babel transpiler and polyfill.
+
 ### 1/19 
 * Webpack cli scripts implemented.
