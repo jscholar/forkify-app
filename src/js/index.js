@@ -1,3 +1,6 @@
-import x from './test'
+import Search from './models/Search';
 
-console.log(`index.js imported ${x} from test`);
+const search = new Search('Rice');
+
+console.log(search);
+search.querySearch();
