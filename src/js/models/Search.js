@@ -5,11 +5,13 @@ export default class Search {
         this.query = query;
     }
     async querySearch() {
-        const apiKey = 'c4f5fd7eb6daa62deece925aa42c0a29';
+        const apiID = '87bd6971'
+        const apiKey = '435b617321f9ccbbbd8272918224caad';
+        const apiInterface = 'https://api.edamam.com/search'
         const corsProxy = 'https://cors-anywhere.herokuapp.com/';
         try {
-            const res = await axios(`${corsProxy}https://www.food2fork.com/api/search?key=${apiKey}&q=${this.query}`);
-            this.result = res.data.recipes;
+            const res = await axios(`${corsProxy}${apiInterface}?app_id=${apiID}&app_key=${apiKey}&q=${this.query}`);
+            this.result = res.data.hits.map((r) => r.recipe);
         } catch(error) {
             alert(error);
         }
