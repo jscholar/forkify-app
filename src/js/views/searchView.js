@@ -8,9 +8,20 @@ export const clearInput = () => elements.searchInput.value = '';
 
 export const clearResults = () => elements.resultsList.innerHTML = '';
 
-const renderRecipe = (recipe) => {
+const limitRecipeTitle = (title, limit = 17) => {
+    if (title.length > limit) {
+        const words = title.split(' ');
+        title = words.reduce((str, word) => {
+            return (str + word + ' ').length <= limit ? str += word + ' ' : str;
+        }, '')
+        title += '...';
+    }
+    return title;
+}
+
+const renderResult = (recipe) => {
     const imgUrl = recipe.image;
-    const recipeLabel = recipe.label;
+    const recipeTitle = limitRecipeTitle(recipe.label);
     const recipeAuthor = recipe.source;
     const markup = `
     <li>
@@ -19,7 +30,7 @@ const renderRecipe = (recipe) => {
                 <img src="${imgUrl}" alt="Test">
             </figure>
             <div class="results__data">
-                <h4 class="results__name">${recipeLabel}</h4>
+                <h4 class="results__name">${recipeTitle}</h4>
                 <p class="results__author">${recipeAuthor}</p>
             </div>
         </a>
@@ -29,7 +40,5 @@ const renderRecipe = (recipe) => {
 }
 
 export const renderResults = (recipes) => {
-    recipes.forEach(renderRecipe);
-
-    
+    recipes.forEach(renderResult);
 }
