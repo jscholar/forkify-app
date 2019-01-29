@@ -1,8 +1,8 @@
 import Search from './models/Search';
-import {elements, renderLoader} from './views/base';
+import {elements, renderLoader, clearLoader} from './views/base';
 import * as searchView from './views/searchView';
 
-import {results as result} from './../../misc/sampleData' // Dummy result
+import DummyResults from './../../misc/sampleData.json'
 
 import './../styles/style.css'
 
@@ -30,17 +30,34 @@ const controlSearch = async () => {
         renderLoader(elements.results);
 
         // Search for recipes (use API)
+        /** await state.search.querySearch(); */
 
 
-        //await state.search.querySearch();
-        state.search.result = result.map((r) => r.recipe);
+        // dummy results
+        const dummyResult = DummyResults.hits.map(r => r.recipe);
+        state.search.result = dummyResult;
+
 
         // Render results on UI
+        console.log(dummyResult);
         searchView.renderResults(state.search.result)
+
+        // Remove loader
+        clearLoader();
     }
 }
 
 elements.searchForm.addEventListener('submit', e => {
     e.preventDefault();
     controlSearch();
+});
+
+elements.searchResPages.addEventListener('click', e => {
+    const btn = e.target.closest('.btn-inline')
+    if (btn) {
+        searchView.clearResults();
+        const goToPage = parseInt(btn.dataset.goto, 10);
+        console.log(btn.dataset);
+        searchView.renderResults(state.search.result, goToPage);
+    }
 });

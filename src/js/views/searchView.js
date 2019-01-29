@@ -6,7 +6,10 @@ export const getInput = () => {
 
 export const clearInput = () => elements.searchInput.value = '';
 
-export const clearResults = () => elements.resultsList.innerHTML = '';
+export const clearResults = () => {
+    elements.resultsList.innerHTML = '';
+    elements.searchResPages.innerHTML = '';
+}
 
 const limitRecipeTitle = (title, limit = 17) => {
     if (title.length > limit) {
@@ -39,6 +42,50 @@ const renderResult = (recipe) => {
     elements.resultsList.insertAdjacentHTML('beforeend', markup);
 }
 
-export const renderResults = (recipes) => {
-    recipes.forEach(renderResult);
+
+// Type: 'prev' or 'next'
+const createButton = (page, type) => `
+    <button class="btn-inline results__btn--${type}" data-goto=${type === 'prev' ? page - 1 : page + 1}">
+        <span>Page ${type === 'prev' ? page - 1 : page + 1}</span>
+        <svg class="search__icon">
+            <use href="img/icons.svg#icon-triangle-${type === 'prev' ? 'left' : 'right'}"></use>
+        </svg>
+    </button>
+`;
+
+const renderButtons = (page, numResults, resPerPage) => {
+    const pages = Math.ceil(numResults / resPerPage);
+    let button;
+    if (page === 1 && pages > 1) {
+        button = createButton(page, 'next');
+        // Only button to next page
+    } else if (page < pages) {
+        // Both buttons
+        button = `
+        ${createButton(page, 'prev')}
+        ${createButton(page, 'next')}
+        `;
+    } else  if (page === pages && pages > 1) {
+        // Only button to prev page
+        button = createButton(page, 'prev');
+    }
+
+    elements.searchResPages.insertAdjacentHTML('afterbegin', button);
+}
+
+const renderPageLabel = (page) => {
+    elements.resultsList.insertAdjacentHTML('afterbegin', `
+    <div>${page}<div>
+    `)
+}
+
+export const renderResults = (recipes, page = 1, resPerPage = 10) => {
+    renderPageLabel(page);
+    const start = (page - 1) * resPerPage;
+    const end = page * resPerPage;
+    
+    recipes.slice(start, end).forEach(renderResult);
+
+    // Render buttons
+    renderButtons(page, recipes.length, resPerPage);
 }
