@@ -23,9 +23,9 @@ const limitRecipeTitle = (title, limit = 17) => {
 }
 
 const renderResult = (recipe) => {
-    const imgUrl = recipe.image;
-    const recipeTitle = limitRecipeTitle(recipe.label);
-    const recipeAuthor = recipe.source;
+    const imgUrl = recipe.image || recipe.image_url;
+    const recipeTitle = limitRecipeTitle(recipe.label || recipe.title);
+    const recipeAuthor = recipe.source || recipe.publisher;
     const markup = `
     <li>
         <a class="results__link" href="#23456">

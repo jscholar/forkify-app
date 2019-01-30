@@ -3,6 +3,7 @@ import {elements, renderLoader, clearLoader} from './views/base';
 import * as searchView from './views/searchView';
 
 import DummyResults from './../../misc/sampleData.json'
+import dummyF2F from './../../misc/sampleF2F.json'
 
 import './../styles/style.css'
 
@@ -30,16 +31,18 @@ const controlSearch = async () => {
         renderLoader(elements.results);
 
         // Search for recipes (use API)
-        /** await state.search.querySearch(); */
-
+        /** await state.search.querySearch();
+         *  await state.search.querySearchF2F();
+         */
 
         // dummy results
-        const dummyResult = DummyResults.hits.map(r => r.recipe);
-        state.search.result = dummyResult;
+        //const dummyResult = DummyResults.hits.map(r => r.recipe);
+        //state.search.result = dummyResult;
+        //console.log(dummyResult);
+        state.search.result = dummyF2F.recipes;
 
 
         // Render results on UI
-        console.log(dummyResult);
         searchView.renderResults(state.search.result)
 
         // Remove loader
