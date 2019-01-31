@@ -28,7 +28,7 @@ const renderResult = (recipe) => {
     const recipeAuthor = recipe.source || recipe.publisher;
     const markup = `
     <li>
-        <a class="results__link" href="#23456">
+        <a class="results__link" href="#${recipe.recipe_id}">
             <figure class="results__fig">
                 <img src="${imgUrl}" alt="Test">
             </figure>
@@ -75,7 +75,7 @@ const renderButtons = (page, numResults, resPerPage) => {
 
 const renderPageLabel = (page) => {
     elements.resultsList.insertAdjacentHTML('afterbegin', `
-    <div>${page}<div>
+    <div>Page ${page}<div>
     `)
 }
 
