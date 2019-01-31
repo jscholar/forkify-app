@@ -9,5 +9,5 @@ export const edamamAPI = {
 export const food2ForkAPI = {
     key: 'c4f5fd7eb6daa62deece925aa42c0a29',
     searchAPI: 'https://www.food2fork.com/api/search',
-    recipeAPI: 'https://www.food2fork.com/api/get '
+    recipeAPI: 'https://www.food2fork.com/api/get'
 }
