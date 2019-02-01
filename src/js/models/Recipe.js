@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { corsProxy, food2ForkAPI } from '../config'
+import  dummyRecipe  from './../../../misc/sampleF2FRecipe.json'
 
 export default class Recipe {
     constructor(id) {
@@ -9,7 +10,9 @@ export default class Recipe {
     async getRecipe() {
         let { key, recipeAPI } = food2ForkAPI;
         try {
-            const res = await axios(`${corsProxy}${recipeAPI}?key=${key}&rId=${this.id}`)
+            //const res = await axios(`${corsProxy}${recipeAPI}?key=${key}&rId=${this.id}`)
+            const res = {};
+            res.data = dummyRecipe;
             this.title = res.data.recipe.title;
             this.author = res.data.recipe.publisher;
             this.img = res.data.recipe.image_url;
@@ -35,6 +38,7 @@ export default class Recipe {
     parseIngredients() {
         const unitsLong = ['tablespoons', 'tablespoon', 'ounces', 'ounce', 'teaspoons', 'teaspoon', 'cups','pounds'];
         const unitsShort = ['tbsp', 'tbsp', 'oz', 'oz','tsp','tsp','cup','pound'];
+        const units = unitsShort.concat(['kg', 'g'])
 
         const newIngredients = this.ingredients.map(el => {
             // Format units
@@ -42,23 +46,22 @@ export default class Recipe {
             unitsLong.forEach((unit, i) => {
                 ingredient = ingredient.replace(unit, unitsShort[i]);
             })
-
             // Remove parentheses
-            ingredient.replace(/ *\([^)]*\) */g, ' ');
+            ingredient = ingredient.replace(/\s*\([^)]*\)\s*/g, ' ');
 
             // Parse ingredients into count unit and ingredient
             const arrIng = ingredient.split(' ');
-            const unitIndex = arrIng.findIndex(el2 => unitsLong.includes(el2));
+            const unitIndex = arrIng.findIndex(el2 => unitsShort.includes(el2));
 
             let objIng;
             if (unitIndex > -1){
                 // A unit exists
 
                 let count;
-                if (arrCount.length === 1) {
+                if (arrIng.length === 1) {
                     count = aryIng[0];
                 } else {
-                    count = eval(arrIng.slice(0, unitIndex).join('+'));
+                    count = eval( arrIng.slice(0, unitIndex).join('+') );
                 }
                 
                 objIng = {
@@ -83,5 +86,14 @@ export default class Recipe {
             return objIng;
         })
         this.ingredients = newIngredients;
+    }
+
+    updateServings (type) {
+        const newServings = type === 'dec' ? this.servings - 1 : this.servings + 1;
+        this.ingredients.forEach(ing => {
+            ing.count *= (newServings/ this.servings);
+        })
+        console.log(this.ingredients);
+        this.servings = newServings
     }
 }
