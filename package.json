@@ -20,7 +20,8 @@
   "homepage": "https://github.com/jscholar/forkify-app#readme",
   "dependencies": {
     "axios": "^0.18.0",
-    "babel-polyfill": "^6.26.0"
+    "babel-polyfill": "^6.26.0",
+    "fractional": "^1.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.2.2",
